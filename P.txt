@@ -1,0 +1,318 @@
+type of ads in android or ios system.
+->popup ads
+For Android:
+java vs kotlin vs flutter vs ract native 
+kotlin has taken.
+java app size on device 2 mb
+kotlin size on device 2.2 mb
+flutter size on device 6 mb
+react native size on device 20 mb 
+we developed same functionality app in all above language and got app size on actual device.
+For IOS:
+u objective C vs Swift
+Swift is better than objective code it like c vs c++ that set.
+
+Note: In Future Java will be removed from android development same like apple company doing i.e apple company removing objective c from ios development.
+we will use media recorder.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Notification File<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+put implementation "androidx.core:core-ktx:1.6.0"; in dependance in build.gradle(module:appname.app)
+ActivityMain.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hi Sharad Notification for You"
+        android:textColor="#E91E63"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.077" />
+
+    <Button
+        android:id="@+id/bu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:text="click here"
+        android:textAlignment="textStart"
+        android:textAllCaps="true"
+        android:textColor="#872222"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+MainActivity.kt
+
+package com.example.kotlinapp
+
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+
+class MainActivity : AppCompatActivity() {
+    val notificationId=44
+    val CHANNEL_ID="worker"
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        createNotificationChannel()//To check android version of device so notification pop up accordingly.
+        val ny = findViewById<Button>(R.id.bu);
+        var our_notification = NotificationCompat.Builder(this, CHANNEL_ID) //building our notification
+            .setSmallIcon(R.drawable.notification_icon)
+            .setContentTitle("Hi Notification for You")
+            .setContentText("hi sharad you have to call M")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        ny.setOnClickListener{
+            with(NotificationManagerCompat.from(this))  //we are calling to our notification function
+            {
+                // notificationId is a unique int for each notification that you must define
+                notify(notificationId,our_notification.build())
+            }
+        }
+
+
+    }
+
+    fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+
+}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Call Recording File<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+put <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+in AndroidManifest.xml 
+
+
+
+
+
+
+
+OK code:
+package com.example.kotlinapp
+
+import androidx.core.app.ActivityCompat
+import android.Manifest
+import android.content.pm.PackageManager
+import android.media.MediaPlayer
+import android.media.MediaRecorder
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log
+import android.view.View.OnClickListener
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import java.io.IOException
+
+private const val LOG_TAG = "AudioRecordTest"
+private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
+
+class AudioRecordTest : AppCompatActivity() {
+
+    private var fileName: String = ""
+
+    private var recordButton: RecordButton? = null
+    private var recorder: MediaRecorder? = null
+
+    private var playButton: PlayButton? = null
+    private var player: MediaPlayer? = null
+
+    // Requesting permission to RECORD_AUDIO
+    private var permissionToRecordAccepted = false
+    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
+
+    override fun onRequestPermissionsResult(requestCode: Int ,permissions: Array<String> , grantResults: IntArray)
+    {
+        super.onRequestPermissionsResult(requestCode , permissions , grantResults)
+        permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        } else {
+            false
+        }
+        if (!permissionToRecordAccepted) {
+            finish()
+        }
+    }
+
+    private fun onRecord(start: Boolean) {
+        if (start) //true
+        {
+            startRecording()
+        } else {
+            stopRecording()
+        }
+    }
+
+    private fun onPlay(start: Boolean)
+    {
+        if(start)
+        { //data
+            startPlaying()
+        }
+       else
+       {
+        stopPlaying()
+       }
+    }
+ ////////////////////////////////////////////////
+    private fun startPlaying() {
+        player = MediaPlayer().apply {
+            try {
+                setDataSource(fileName)
+                prepare()
+                start()
+            } catch (e: IOException) {
+                Log.e(LOG_TAG , "prepare() failed")
+            }
+        }
+    }
+
+    private fun stopPlaying() {
+        player?.release()
+        player = null
+    }
+
+    private fun startRecording() {
+        recorder = MediaRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setOutputFile(fileName)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+
+            try {
+                prepare()
+            } catch (e: IOException) {
+                Log.e(LOG_TAG , "prepare() failed")
+            }
+
+            start()
+        }
+    }
+
+    private fun stopRecording() {
+        recorder?.apply {
+            stop()
+            release()
+        }
+        recorder = null
+    }
+
+    internal inner class RecordButton(ctx: AudioRecordTest) : Button(ctx) {
+
+        var mStartRecording = true
+
+        var clicker: OnClickListener = OnClickListener {
+            onRecord(mStartRecording)
+            text = when (mStartRecording) {
+                true -> "Stop recording"
+                false -> "Start recording"
+            }
+            mStartRecording = !mStartRecording
+        }
+
+        init {
+            text = "Start recording"
+            setOnClickListener(clicker)
+        }
+    }
+
+    internal inner class PlayButton(ctx: AudioRecordTest) : Button(ctx) {
+        var mStartPlaying = true
+        var clicker: OnClickListener = OnClickListener {
+            onPlay(mStartPlaying)
+            text = when (mStartPlaying) {
+                true -> "Stop playing"
+                false -> "Start playing"
+            }
+            mStartPlaying = !mStartPlaying
+        }
+
+        init {
+            text = "Start playing"
+            setOnClickListener(clicker)
+        }
+    }
+
+    override fun onCreate(icicle: Bundle?) {
+        super.onCreate(icicle)
+
+        // Record to the external cache directory for visibility
+        fileName = "${externalCacheDir?.absolutePath}/audiorecordtest.3gp"
+
+        ActivityCompat.requestPermissions(this , permissions , REQUEST_RECORD_AUDIO_PERMISSION)
+
+        recordButton = RecordButton(this)
+        playButton = PlayButton(this)
+        val ll = LinearLayout(this).apply {
+            addView(
+                recordButton ,
+                LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT ,
+                    ViewGroup.LayoutParams.WRAP_CONTENT ,
+                    0f
+                )
+            )
+            addView(
+                playButton ,
+                LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT ,
+                    ViewGroup.LayoutParams.WRAP_CONTENT ,
+                    0f
+                )
+            )
+        }
+        setContentView(ll)
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        recorder?.release()
+        recorder = null
+        player?.release()
+        player = null
+    }
+}

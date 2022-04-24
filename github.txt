@@ -1,0 +1,26 @@
+>>>>>>>>>>>>>>SETUP>>>>>>>>>>>>>>
+git --version  // To check version
+git config --global user.name “sharad pawar”   // set user name 
+git config --global user.email sp901163@gmail.com // set email 
+
+>>>>>>>>>>>>>>SETUP & INIT>>>>>>>>>>>>>>
+git init  // Use this command when u want to make local directory ready to push on github 
+git status  // check status wheather our directory exist in pipline of git or not 
+git add file_name or git add -A // adding/staging the ur file into pipline and Where -A is used to add all file at one time 
+git reset [file]  // unstaging a file ur file into pipline ?
+git commit -m “my first commit”  //telling that this is  my first commit
+git show //tell us who commit this repo and when etc 
+git log //show all commit done by auther
+git log -p -2 // it show 2 recent commit if there is 4 then it show 4 recent commit.
+git branch --list // To see branches 
+git branch branch_name  //To create new branch
+git checkout branch_name //To Switch from One branch to Another branch
+git branch -D branch_name //To Delete the Branch 
+git merge branch_name  //To merge the branches but u must on master branch then only u can do merge. 
+Note:
+master and root both are same term like master directory
+
+>>>>>>>>>>>>Push to Github>>>>>>>>>>>>>>>
+git branch -M main // checkout/switching from master to main branch i.e master branch is for git and main branch is for github.
+git remote add origin URL.git  //github url 
+git push -u origin main  //pushing all data to github url repository 

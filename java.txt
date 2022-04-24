@@ -1,0 +1,43 @@
+Java SE = Standard Edition // free for all 
+Java EE = Enterprise Edition //paid version for company//get more features
+Java ME = Micro Edition //free for embedded systems
+JAVA version 2,7,8,15,17,18
+latest stable version is Java 15.
+same like C++ 14 Vs java 15 and C++ 17 vs JAVA 17.
+java 15 has automatic memory mangment / garbage mangment system no need to worry about memory space.
+
+Spring vs Spring Boot vs Spring MVC
+spring is java framework to write java code i.e it simplify java code that set.
+Spring Boot Java-based framework used to create a micro Services.
+Spring MVC Java framework which is used to build web applications.
+Maven is a build automation tool used primarily for Java projects.
+Bin to all
+System.out.println(Integer.toOctalString(8));  
+System.out.println(Integer.toBinaryString(10));  
+System.out.println(Integer.toHexString(15));  
+Hex to all
+Integer.parseInt(hex,16);  
+Integer.parseInt(octalString,8);  
+Integer.parseInt(binaryString,2); 
+
+
+django dev
+10k
+
+sql dev
+4k
+
+python dev 
+14 k
+
+java dev
+17 k
+
+Reactjs dev
+14k
+
+softwar engineer
+45 k
+
+software test engineer/QA/Software Engineer in Test 
+20k
